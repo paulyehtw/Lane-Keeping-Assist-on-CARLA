@@ -10,7 +10,7 @@ This assginment implements Lane Keeping Assist function by applying pure pursuit
 
 The waypoints and corresponding velocities for the track are pre-defined.
 
-To realize this function, the open sourse simulator CARLA is introduced.
+To realize this function, the open sourse simulator [CARLA](http://carla.org) is introduced.
 
 ## Prerequisites
 First CARLA must be installed on your machine, the CARLA loader requires **Ubuntu 16.04 or later** to run
