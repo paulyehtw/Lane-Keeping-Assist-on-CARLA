@@ -4,7 +4,7 @@
   <img  src="https://github.com/paulyehtw/Lane-Keeping-Assist-on-CARLA/blob/master/controller_output/CARLA.png">
 </p>
 
-This is an module assgnment from Motion Planning for Self-Driving Cars course of Self-Driving Cars Specialization on Coursera.org.
+This is a module assgnment from Motion Planning for Self-Driving Cars course of Self-Driving Cars Specialization on Coursera.org.
 
 This assginment implements Lane Keeping Assist function by applying pure pursuit method for lateral control and PID controller for longitudinal control using Python as the programming language.
 
