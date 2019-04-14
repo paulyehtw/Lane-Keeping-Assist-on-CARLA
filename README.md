@@ -39,3 +39,7 @@ The green line is the track(ground truth) and the orange line is the trajectory.
 <p align="center">
   <img  src="https://github.com/paulyehtw/Lane-Keeping-Assist-on-CARLA/blob/master/controller_output/trajectory_good.png">
 </p>
+
+#### TODO
+1. Implement Feed Forward method for longitudinal control.
+2. Implement Stanley and MPC approaches for lateral control.
