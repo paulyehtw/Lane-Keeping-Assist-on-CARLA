@@ -36,8 +36,6 @@ class Controller2D(object):
         self._wheelbase          = 3.0
 
 
-
-
     def update_values(self, x, y, yaw, speed, timestamp, frame, closest_distance):
         self._current_x         = x
         self._current_y         = y
@@ -89,6 +87,15 @@ class Controller2D(object):
         # Clamp the steering command to valid bounds
         brake           = np.fmax(np.fmin(input_brake, 1.0), 0.0)
         self._set_brake = brake
+
+    def calculate_throttle(self, t, v, v_desired):
+        # Using PI Controller
+        time_step = t - self.vars.t_previous
+        speed_error = v_desired - v
+        k_term = self._kP*speed_error
+        i_term = self.vars.i_term_previous + self._kI*time_step*speed_error
+        self.vars.i_term_previous = i_term
+        return k_term + i_term
 
     def get_shifted_coordinate(self, x, y, yaw, length):
         x_shifted = x + length*np.cos(yaw)
@@ -223,12 +230,8 @@ class Controller2D(object):
             # Change these outputs with the longitudinal controller. Note that
             # brake_output is optional and is not required to pass the
             # assignment, as the car will naturally slow down over time.
-            time_step = t - self.vars.t_previous
-            speed_error = v_desired - v
-            k_term = self._kP*speed_error
-            i_term = self.vars.i_term_previous + self._kI*time_step*speed_error
 
-            throttle_output = k_term + i_term
+            throttle_output = self.calculate_throttle(t, v, v_desired)
             brake_output    = 0
 
             ######################################################
@@ -264,5 +267,5 @@ class Controller2D(object):
         """
         self.vars.v_previous = v  # Store forward speed to be used in next step
         self.vars.t_previous = t
-        self.vars.i_term_previous = i_term
+
 
