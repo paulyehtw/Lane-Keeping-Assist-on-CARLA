@@ -30,6 +30,8 @@ Then do `./CarlaUE4.sh /Game/Maps/RaceTrack -windowed -carla-server -benchmark -
 ### 2. Run the LKA controller
 Open another terminal and do `cd ~/opt/CarlaSimulator/PythonClient/Lane-Keeping-Assist-on-CARLA`.
 
+(optional) do `sudo apt-get install python3-tk` in case you do not have `Tkinter` module.
+
 Then do `python3 module_7.py`.
 
 The vehicle should starting driving and following the track.
