@@ -351,7 +351,7 @@ def exec_waypoint_nav_demo(args):
         #############################################
         # This is where we take the controller2d.py class
         # and apply it to the simulator
-        controller = controller2d.Controller2D(waypoints)
+        controller = controller2d.Controller2D(waypoints, args.control_method)
 
         #############################################
         # Determine simulation average timestep (and total frames)
@@ -737,6 +737,13 @@ def main():
         dest='settings_filepath',
         default=None,
         help='Path to a "CarlaSettings.ini" file')
+    argparser.add_argument(
+        '--control-method',
+        metavar='CONTROL_METHOD',
+        dest='control_method',
+        choices = {'PurePursuit','Stanley'},
+        default='PurePursuit',
+        help='Select control method for Lane Keeping Assist')
     args = argparser.parse_args()
 
     # Logging startup info

@@ -9,7 +9,7 @@ import numpy as np
 import math
 
 class Controller2D(object):
-    def __init__(self, waypoints):
+    def __init__(self, waypoints, control_method):
         self.vars                = cutils.CUtils()
         self._current_x          = 0
         self._current_y          = 0
@@ -34,6 +34,7 @@ class Controller2D(object):
         self._eps_lookahead      = 10e-3
         self._closest_distance   = 0
         self._wheelbase          = 3.0
+        self._control_method     = control_method
 
 
     def update_values(self, x, y, yaw, speed, timestamp, frame, closest_distance):
@@ -123,22 +124,24 @@ class Controller2D(object):
         return 1
 
     def calculate_steering(self, x, y, yaw, waypoints, v):
-        lookahead_dis = self.get_lookahead_dis(v)
-        idx = self.get_goal_waypoint_index(x, y, waypoints, lookahead_dis)
-        v1 = [waypoints[idx][0] - x, waypoints[idx][1] - y]
-        v2 = [np.cos(yaw), np.sin(yaw)]
-        alpha = self.get_alpha(v1, v2, lookahead_dis)
-        if math.isnan(alpha):
-            alpha = self.vars.alpha_previous
-        if not math.isnan(alpha):
-            self.vars.alpha_previous = alpha
+        if self._control_method == 'PurePursuit':
+            lookahead_dis = self.get_lookahead_dis(v)
+            idx = self.get_goal_waypoint_index(x, y, waypoints, lookahead_dis)
+            v1 = [waypoints[idx][0] - x, waypoints[idx][1] - y]
+            v2 = [np.cos(yaw), np.sin(yaw)]
+            alpha = self.get_alpha(v1, v2, lookahead_dis)
+            if math.isnan(alpha):
+                alpha = self.vars.alpha_previous
+            if not math.isnan(alpha):
+                self.vars.alpha_previous = alpha
 
-        steering = self.get_steering_direction(v1, v2)*np.arctan((2*self._wheelbase*np.sin(alpha))/(self._Kpp*v))
-        if math.isnan(steering):
-            steering = self.vars.steering_previous
-        if not math.isnan(steering):
-            self.vars.steering_previous = steering
-        return steering
+            steering = self.get_steering_direction(v1, v2)*np.arctan((2*self._wheelbase*np.sin(alpha))/(self._Kpp*v))
+            if math.isnan(steering):
+                steering = self.vars.steering_previous
+            if not math.isnan(steering):
+                self.vars.steering_previous = steering
+            return steering
+        return 0
 
     def update_controls(self):
         ######################################################
