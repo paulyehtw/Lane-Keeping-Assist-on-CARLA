@@ -31,6 +31,7 @@ class Controller2D(object):
         self._kD                 = 0.0
         self._Kpp                = 4.5
         self._Kvf                = 2.5
+        self._Kcte               = 0.5
         self._eps_lookahead      = 10e-3
         self._closest_distance   = 0
         self._wheelbase          = 3.0
@@ -123,7 +124,26 @@ class Controller2D(object):
             return -1
         return 1
 
+    def get_heading_error(self, waypoints, current_yaw):
+        waypoint_delta_x = waypoints[1][0] - waypoints[0][0]
+        waypoint_delta_y = waypoints[1][1] - waypoints[0][1]
+        waypoint_heading = np.arctan(waypoint_delta_y/waypoint_delta_x)
+        heading_error_mod = divmod((waypoint_heading - current_yaw), np.pi)[1]
+        if heading_error_mod > np.pi/2 and heading_error_mod < np.pi:
+            heading_error_mod -= np.pi
+        return heading_error_mod
+
+    def get_cte_heading_error(self, v):
+        proportional_cte_error = self._Kcte * self._closest_distance
+        cte_heading_error = np.arctan(proportional_cte_error/v)
+        cte_heading_error_mod = divmod(cte_heading_error, np.pi)[1]
+        if cte_heading_error_mod > np.pi/2 and cte_heading_error_mod < np.pi:
+            cte_heading_error_mod -= np.pi
+        return cte_heading_error_mod
+
+
     def calculate_steering(self, x, y, yaw, waypoints, v):
+
         if self._control_method == 'PurePursuit':
             lookahead_dis = self.get_lookahead_dis(v)
             idx = self.get_goal_waypoint_index(x, y, waypoints, lookahead_dis)
@@ -134,14 +154,21 @@ class Controller2D(object):
                 alpha = self.vars.alpha_previous
             if not math.isnan(alpha):
                 self.vars.alpha_previous = alpha
-
             steering = self.get_steering_direction(v1, v2)*np.arctan((2*self._wheelbase*np.sin(alpha))/(self._Kpp*v))
             if math.isnan(steering):
                 steering = self.vars.steering_previous
             if not math.isnan(steering):
                 self.vars.steering_previous = steering
             return steering
-        return 0
+        elif self._control_method == 'Stanley':
+            v1 = [waypoints[0][0] - x, waypoints[0][1] - y]
+            v2 = [np.cos(yaw), np.sin(yaw)]
+            heading_error = self.get_heading_error(waypoints, yaw)
+            cte_error = self.get_steering_direction(v1, v2)*self.get_cte_heading_error(v)
+            steering =  heading_error + cte_error
+            return steering
+        else:
+            return 0
 
     def update_controls(self):
         ######################################################

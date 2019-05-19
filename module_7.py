@@ -233,6 +233,12 @@ def write_trajectory_file(x_list, y_list, v_list, t_list):
 def exec_waypoint_nav_demo(args):
     """ Executes waypoint navigation demo.
     """
+    if args.control_method == 'PurePursuit':
+        print("Control method selected : Pure Pursuit\n")
+    elif args.control_method == 'Stanley':
+        print("Control method selected : Stanley\n")
+    else:
+        print("Control method selected : Unknown\n")
 
     with make_carla_client(args.host, args.port) as client:
         print('Carla client connected.')
@@ -515,7 +521,13 @@ def exec_waypoint_nav_demo(args):
             current_timestamp = float(measurement_data.game_timestamp) / 1000.0
 
             # Shift x, y coordinates
-            length = -1.5
+            if args.control_method == 'PurePursuit':
+                length = -1.5
+            elif args.control_method == 'Stanley':
+                length = 1.5
+            else:
+                length = 0.0
+
             current_x, current_y = controller.get_shifted_coordinate(current_x, current_y, current_yaw, length)
 
             # Wait for some initial time before starting the demo
@@ -743,7 +755,7 @@ def main():
         dest='control_method',
         choices = {'PurePursuit','Stanley'},
         default='PurePursuit',
-        help='Select control method for Lane Keeping Assist')
+        help='Select control method for Lane Keeping Assist : PurePursuit or Stanley')
     args = argparser.parse_args()
 
     # Logging startup info
