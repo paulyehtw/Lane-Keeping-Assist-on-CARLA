@@ -6,7 +6,7 @@
 
 This is a module assgnment from Motion Planning for Self-Driving Cars course of Self-Driving Cars Specialization on Coursera.org.
 
-This assginment implements Lane Keeping Assist function by applying pure pursuit method for lateral control and PID controller for longitudinal control using Python as the programming language.
+This assginment implements Lane Keeping Assist function by applying pure pursuit and Stanley methods for lateral control and PID controller for longitudinal control using Python as the programming language.
 
 The waypoints and corresponding velocities for the track are pre-defined.
 
