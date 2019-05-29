@@ -36,11 +36,11 @@ Run `python3 module_7.py` to execute the controller(default is MPC control metho
 
 To select 3 different control methods:
 
-MPC -  `python3 module_7.py --control-method MPC` 
+MPC - `python3 module_7.py --control-method MPC` 
 
-Stanley -  `python3 module_7.py --control-method Stanley` 
+Stanley - `python3 module_7.py --control-method Stanley` 
 
-Pure Pursuit `python3 module_7.py --control-method PurePursuit`
+Pure Pursuit - `python3 module_7.py --control-method PurePursuit`
 
 The vehicle should starting driving and following the track.
 
