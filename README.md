@@ -32,14 +32,26 @@ Open another terminal and do `cd ~/opt/CarlaSimulator/PythonClient/Lane-Keeping-
 
 (optional) do `sudo apt-get install python3-tk` in case you do not have `Tkinter` module.
 
-Then do `python3 module_7.py --control-method Stanley` or `python3 module_7.py --control-method PurePursuit`.
+Run `python3 module_7.py` to execute the controller(default is MPC control method)
+
+To select 3 different control methods:
+
+MPC -  `python3 module_7.py --control-method MPC` 
+
+Stanley -  `python3 module_7.py --control-method Stanley` 
+
+Pure Pursuit `python3 module_7.py --control-method PurePursuit`
 
 The vehicle should starting driving and following the track.
 
 ## Simulation results
-The images shown below is the result of vehicle trajectory(Stanley and Pure Pursuit method).
+The images shown below is the result of vehicle trajectory(MPC, Stanley and Pure Pursuit method).
 
 The green line is the track(ground truth) and the orange line is the trajectory.
+
+<p align="center"><b>MPC Method</b>
+  <img  src="https://github.com/paulyehtw/Lane-Keeping-Assist-on-CARLA/blob/master/controller_output/trajectory_MPC.png">
+</p>
 
 <p align="center"><b>Stanley Method</b>
   <img  src="https://github.com/paulyehtw/Lane-Keeping-Assist-on-CARLA/blob/master/controller_output/trajectory_Stanley.png">
@@ -49,5 +61,3 @@ The green line is the track(ground truth) and the orange line is the trajectory.
   <img  src="https://github.com/paulyehtw/Lane-Keeping-Assist-on-CARLA/blob/master/controller_output/trajectory_PurePursuit.png">
 </p>
 
-#### TODO
-- Implement MPC approach for lateral control.
