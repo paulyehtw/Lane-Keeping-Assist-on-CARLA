@@ -237,6 +237,8 @@ def exec_waypoint_nav_demo(args):
         print("Control method selected : Pure Pursuit\n")
     elif args.control_method == 'Stanley':
         print("Control method selected : Stanley\n")
+    elif args.control_method == 'MPC':
+        print("Control method selected : MPC\n")
     else:
         print("Control method selected : Unknown\n")
 
@@ -523,7 +525,7 @@ def exec_waypoint_nav_demo(args):
             # Shift x, y coordinates
             if args.control_method == 'PurePursuit':
                 length = -1.5
-            elif args.control_method == 'Stanley':
+            elif args.control_method == 'Stanley' or args.control_method == 'MPC':
                 length = 1.5
             else:
                 length = 0.0
@@ -753,9 +755,9 @@ def main():
         '--control-method',
         metavar='CONTROL_METHOD',
         dest='control_method',
-        choices = {'PurePursuit','Stanley'},
-        default='PurePursuit',
-        help='Select control method for Lane Keeping Assist : PurePursuit or Stanley')
+        choices = {'PurePursuit','Stanley','MPC'},
+        default='MPC',
+        help='Select control method for Lane Keeping Assist : PurePursuit, Stanley or MPC')
     args = argparser.parse_args()
 
     # Logging startup info

@@ -32,10 +32,12 @@ class Controller2D(object):
         self._Kpp                = 4.5
         self._Kvf                = 2.5
         self._Kcte               = 0.5
+        self._Kmpc               = 0.3
         self._eps_lookahead      = 10e-3
         self._closest_distance   = 0
         self._wheelbase          = 3.0
         self._control_method     = control_method
+        self._steering_diff      = np.linspace(-10, 10, 21, endpoint = True)
 
 
     def update_values(self, x, y, yaw, speed, timestamp, frame, closest_distance):
@@ -107,9 +109,12 @@ class Controller2D(object):
     def get_lookahead_dis(self, v):
         return self._Kvf*v
 
+    def get_distance(self, x1, y1, x2, y2):
+        return np.sqrt((x1 - x2)**2 + (y1 - y2)**2)
+
     def get_goal_waypoint_index(self, x, y, waypoints, lookahead_dis):
         for i in range(len(waypoints)):
-            dis = np.sqrt((x - waypoints[i][0])**2 + (y - waypoints[i][1])**2)
+            dis = self.get_distance(x, y, waypoints[i][0], waypoints[i][1])
             if abs(dis - lookahead_dis) <= self._eps_lookahead:
                 return i
         return len(waypoints)-1
@@ -141,9 +146,12 @@ class Controller2D(object):
             cte_heading_error_mod -= np.pi
         return cte_heading_error_mod
 
+    def get_predicted_wheel_location(self, x, y, steering_angle, yaw, v):
+        wheel_heading = yaw + steering_angle
+        wheel_traveled_dis = v * (self._current_timestamp - self.vars.t_previous)
+        return [x + wheel_traveled_dis * np.cos(wheel_heading), y + wheel_traveled_dis * np.sin(wheel_heading)]
 
     def calculate_steering(self, x, y, yaw, waypoints, v):
-
         if self._control_method == 'PurePursuit':
             lookahead_dis = self.get_lookahead_dis(v)
             idx = self.get_goal_waypoint_index(x, y, waypoints, lookahead_dis)
@@ -166,6 +174,18 @@ class Controller2D(object):
             heading_error = self.get_heading_error(waypoints, yaw)
             cte_error = self.get_steering_direction(v1, v2)*self.get_cte_heading_error(v)
             steering =  heading_error + cte_error
+            return steering
+        elif self._control_method == 'MPC':
+            steering_list = self.vars.steering_previous + self._steering_diff * self._pi/180
+            last_waypoint = [waypoints[int(self._Kmpc*len(waypoints))][0], waypoints[int(self._Kmpc*len(waypoints))][1]]
+            min_dis = float("inf")
+            steering = self.vars.steering_previous
+            for i in range(len(steering_list)):
+                predicted_wheel_location = self.get_predicted_wheel_location(x, y, steering_list[i], yaw, v)
+                dis_to_last_waypoint = self.get_distance(predicted_wheel_location[0], predicted_wheel_location[1], last_waypoint[0], last_waypoint[1])
+                if dis_to_last_waypoint < min_dis:
+                    min_dis = dis_to_last_waypoint
+                    steering = steering_list[i]
             return steering
         else:
             return 0
