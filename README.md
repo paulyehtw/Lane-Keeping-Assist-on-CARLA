@@ -6,7 +6,7 @@
 
 This is an assignment from [Introduction to Self-Driving Cars](https://www.coursera.org/learn/intro-self-driving-cars) course of [Self-Driving Cars Specialization](https://www.coursera.org/specializations/self-driving-cars?) on Coursera.org.
 
-This assginment implements Lane Keeping Assist function by applying pure pursuit and Stanley methods for lateral control and PID controller for longitudinal control using Python as the programming language.
+This assignment implements Lane Keeping Assist function by applying pure pursuit and Stanley methods for lateral control and PID controller for longitudinal control using Python as the programming language.
 
 The waypoints and corresponding velocities for the track are pre-defined.
 
