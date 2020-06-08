@@ -49,15 +49,19 @@ The images shown below is the result of vehicle trajectory(MPC, Stanley and Pure
 
 The green line is the track(ground truth) and the orange line is the trajectory.
 
-<p align="center"><b>MPC Method</b>
-  <img  src="https://github.com/paulyehtw/Lane-Keeping-Assist-on-CARLA/blob/master/controller_output/trajectory_MPC.png">
+<p align="center"><b>MPC Method</b></p>
+<p align="center">
+  <img  src="controller_output/trajectory_MPC.png">
 </p>
 
-<p align="center"><b>Stanley Method</b>
-  <img  src="https://github.com/paulyehtw/Lane-Keeping-Assist-on-CARLA/blob/master/controller_output/trajectory_Stanley.png">
+<p align="center"><b>Stanley Method</b></p>
+<p align="center">
+  <img  src="controller_output/trajectory_Stanley.png">
 </p>
 
-<p align="center"><b>Pure Pursuit Method</b>
-  <img  src="https://github.com/paulyehtw/Lane-Keeping-Assist-on-CARLA/blob/master/controller_output/trajectory_PurePursuit.png">
+<p align="center"><b>Pure Pursuit Method</b></p>
+<p align="center">
+  <img  src="controller_output/trajectory_PurePursuit.png">
 </p>
+
 
