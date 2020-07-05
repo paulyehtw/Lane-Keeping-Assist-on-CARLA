@@ -1,7 +1,7 @@
 # Lane-Keeping-Assist-on-CARLA
 ## Introduction
 <p align="center">
-  <img  src="https://github.com/paulyehtw/Lane-Keeping-Assist-on-CARLA/blob/master/controller_output/CARLA.png">
+  <img  src="controller_output/CARLA.png">
 </p>
 
 This is an assignment from [Introduction to Self-Driving Cars](https://www.coursera.org/learn/intro-self-driving-cars) course of [Self-Driving Cars Specialization](https://www.coursera.org/specializations/self-driving-cars?) on Coursera.org.
@@ -17,7 +17,7 @@ First CARLA must be installed on your machine, the CARLA loader requires **Ubunt
 
 Please go through **CARLA-Setup-Guide-_Ubuntu_.pdf** and install CARLA and all other dependencies properly.
 
-CARLA Simulator can be downloaded [here](https://drive.google.com/file/d/1XflJ5AtZ5YIIBmorSdhYcEjENrY1sJJN/view?usp=sharing)
+CARLA Simulator can be downloaded [here](https://www.dropbox.com/s/hu06pg118qqbd67/CarlaUE4Ubuntu.tar.gz?dl=0)
 
 ## How to run it
 First clone this repository and put it under **PythonClient** directory.
@@ -36,9 +36,9 @@ Run `python3 module_7.py` to execute the controller(default is MPC control metho
 
 To select 3 different control methods:
 
-MPC - `python3 module_7.py --control-method MPC` 
+MPC - `python3 module_7.py --control-method MPC`
 
-Stanley - `python3 module_7.py --control-method Stanley` 
+Stanley - `python3 module_7.py --control-method Stanley`
 
 Pure Pursuit - `python3 module_7.py --control-method PurePursuit`
 
